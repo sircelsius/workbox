@@ -1,0 +1,54 @@
+<html>
+  <head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<script type="module" src="../../../../packages/workbox-core/index.mjs"></script>
+<script nomodule      src="../../../../packages/workbox-core/builds/browser/workbox-core.dev.js"></script>
+<script>
+  const logger = workbox.core.internal.utils.logger;
+  const outputs = [
+    // String
+    'Hello from demo.',
+    // Objects
+    {
+      foo: {
+        bar: {
+          baz: 'Yo.'
+        }
+      }
+    },
+    ['Example of an Array', {with: 'objects'}, true, false],
+    true,
+    false,
+    1234,
+  ];
+  const methods = [
+    'log',
+    'debug',
+    'warn',
+    'error',
+  ];
+  methods.forEach((method) => {
+    console.log(`Testing 'logger.${method}'`);
+    outputs.forEach((output) => {
+      logger[method](`${method}: `, output);
+    });
+    console.log('\n\n');
+  });
+
+  const groupedLogs = [
+    ['Testing', 'multiple', 'strings'],
+    ['Testing', {mixed: 'items'}, 'in', ['a', 'log']],
+    [{this: 'is'}, 'different', 'cos', {strings: 'are'}, 'not first'],
+  ];
+  methods.forEach((method) => {
+    console.log(`Testing 'logger.${method}'`);
+    groupedLogs.forEach((group) => {
+      logger[method](...group);
+    })
+    console.log('\n\n');
+  });
+</script>
+</body>
+</html>

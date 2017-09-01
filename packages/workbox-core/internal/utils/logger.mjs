@@ -9,6 +9,11 @@ const DEBUG_LOG_LEVEL = 1;
 const WARNING_LOG_LEVEL = 2;
 const ERROR_LOG_LEVEL = 3;
 
+const GREY = `#7f8c8d`;
+const GREEN = `#2ecc71`;
+const YELLOW = `#f39c12`;
+const RED = `#c0392b`;
+
 /**
  * LogHelper should be used to print to the console.
  *
@@ -72,40 +77,54 @@ class Logger {
    * @param {*} logArgs
    * @param {number} minLevel
    */
-  _print(logFunction, logArgs, minLevel) {
+  _print(logFunction, logArgs, minLevel, levelColor) {
     if (this._logLevel > minLevel) {
       return;
     }
 
-    logFunction(...logArgs);
+    const initLogOutput = [
+      '%c🔧',
+    ];
+
+    const logObjects = [];
+    logArgs.forEach((logArg) => {
+      if (logObjects.length === 0 &&typeof logArg === 'string') {
+        initLogOutput.push(logArg);
+      } else {
+        logObjects.push(logArg);
+      }
+    });
+
+    logFunction(initLogOutput.join(' '), `color: ${levelColor}`,
+      ...logObjects);
   }
 
   /**
    * Prints to `console.log`
    */
   log(...args) {
-    this._print(console.log, args, VERBOSE_LOG_LEVEL);
+    this._print(console.log, args, VERBOSE_LOG_LEVEL, GREY);
   }
 
   /**
    * Prints to `console.debug`
    */
   debug(...args) {
-    this._print(console.debug, args, DEBUG_LOG_LEVEL);
+    this._print(console.debug, args, DEBUG_LOG_LEVEL, GREEN);
   }
 
   /**
    * Prints to `console.warn`
    */
   warn(...args) {
-    this._print(console.warn, args, WARNING_LOG_LEVEL);
+    this._print(console.warn, args, WARNING_LOG_LEVEL, YELLOW);
   }
 
   /**
    * Prints to `console.error`
    */
   error(...args) {
-    this._print(console.error, args, ERROR_LOG_LEVEL);
+    this._print(console.error, args, ERROR_LOG_LEVEL, RED);
   }
 }
 
