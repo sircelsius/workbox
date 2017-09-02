@@ -49,6 +49,22 @@
     })
     console.log('\n\n');
   });
+
+  methods.forEach((method) => {
+    console.log(`Testing 'logger.${method}.groupCollapsed'`);
+    outputs.forEach((output) => {
+      logger[method].groupCollapsed(output);
+      methods.forEach((method) => {
+        outputs.forEach((output) => {
+          logger[method](output);
+        });
+        console.log('\n');
+      });
+      logger.log.groupEnd();
+      console.log('\n');
+    })
+    console.log('\n\n');
+  });
 </script>
 </body>
 </html>

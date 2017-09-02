@@ -84,47 +84,52 @@ class Logger {
 
     const initLogOutput = [
       '%c🔧',
+      `background: ${levelColor}; border-radius: 100%; color: white;
+        display: block; padding: 2px;`,
     ];
 
-    const logObjects = [];
-    logArgs.forEach((logArg) => {
-      if (logObjects.length === 0 &&typeof logArg === 'string') {
-        initLogOutput.push(logArg);
-      } else {
-        logObjects.push(logArg);
-      }
-    });
+    logFunction(...initLogOutput, ...logArgs);
+  }
 
-    logFunction(initLogOutput.join(' '), `color: ${levelColor}`,
-      ...logObjects);
+  _getLogFunc(logFunc, logLevel, color) {
+    const customFunc = (...args) => {
+      this._print(logFunc, args, logLevel, color);
+    };
+    customFunc.groupCollapsed = (...args) => {
+     this._print(console.groupCollapsed, args, logLevel, color);
+    };
+    customFunc.groupEnd = (...args) => {
+     this._print(console.groupEnd, args, logLevel, color);
+    };
+    return customFunc;
   }
 
   /**
    * Prints to `console.log`
    */
-  log(...args) {
-    this._print(console.log, args, VERBOSE_LOG_LEVEL, GREY);
+  get log() {
+    return this._getLogFunc(console.log, VERBOSE_LOG_LEVEL, GREY);
   }
 
   /**
    * Prints to `console.debug`
    */
-  debug(...args) {
-    this._print(console.debug, args, DEBUG_LOG_LEVEL, GREEN);
+  get debug() {
+    return this._getLogFunc(console.debug, DEBUG_LOG_LEVEL, GREEN);
   }
 
   /**
    * Prints to `console.warn`
    */
-  warn(...args) {
-    this._print(console.warn, args, WARNING_LOG_LEVEL, YELLOW);
+  get warn() {
+    return this._getLogFunc(console.warn, WARNING_LOG_LEVEL, YELLOW);
   }
 
   /**
    * Prints to `console.error`
    */
-  error(...args) {
-    this._print(console.error, args, ERROR_LOG_LEVEL, RED);
+  get error() {
+    return this._getLogFunc(console.error, ERROR_LOG_LEVEL, RED);
   }
 }
 
