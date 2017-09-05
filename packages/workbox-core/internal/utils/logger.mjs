@@ -83,10 +83,25 @@ class Logger {
     }
 
     const initLogOutput = [
-      '%c🔧',
-      `background: ${levelColor}; border-radius: 100%; color: white;
-        display: block; padding: 2px;`,
+      '%cworkbox',
+      `
+        background: ${levelColor};
+        color: white;
+        padding: 2px 0.5em;
+        border-radius: 0.5em;
+      `,
     ];
+
+    /** const initLogOutput = [
+      '%c🔧',
+      `
+        background: ${levelColor};
+        color: white;
+        padding: 2px;
+        border-radius: 50%;
+      `,
+    ];**/
+
 
     logFunction(...initLogOutput, ...logArgs);
   }
