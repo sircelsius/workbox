@@ -115,6 +115,54 @@ class Router extends SWRoutingRouter {
   }
 
   /**
+  * Registers a GET route to the router.
+  *
+  * @param {String|RegExp|module:workbox-routing.matchCallback} capture
+  * The capture for a route can be one of three types:
+  * 1. An Express-style route, like `'/path/to/:anything'` for
+  *    same-origin or `'https://cross-origin.com/path/to/:anything'` for
+  *    cross-origin routes.
+  * 1. A regular expression that will be tested against request URLs. For
+  *    cross-origin routes, you must use a RegExp that matches the start of the
+  *    full URL, like `new RegExp('https://cross-origin\.com/')`.
+  * 1. A [function]{@link module:workbox-routing.matchCallback} which is
+  *    passed the URL and `FetchEvent`, and should returns a truthy value if
+  *    the route matches.
+  * @param {function|module:workbox-runtime-caching.Handler} handler The
+  * handler to use to provide a response if the route matches. The handler
+  * argument is ignored if you pass in a Route object, otherwise it's required.
+  * @return {module:workbox-routing.Route} The Route object that was
+  * registered.
+  */
+  get(capture, handler) {
+    return this.registerRoute(capture, handler);
+  }
+
+  /**
+  * Registers a POST route to the router.
+  *
+  * @param {String|RegExp|module:workbox-routing.matchCallback} capture
+  * The capture for a route can be one of three types:
+  * 1. An Express-style route, like `'/path/to/:anything'` for
+  *    same-origin or `'https://cross-origin.com/path/to/:anything'` for
+  *    cross-origin routes.
+  * 1. A regular expression that will be tested against request URLs. For
+  *    cross-origin routes, you must use a RegExp that matches the start of the
+  *    full URL, like `new RegExp('https://cross-origin\.com/')`.
+  * 1. A [function]{@link module:workbox-routing.matchCallback} which is
+  *    passed the URL and `FetchEvent`, and should returns a truthy value if
+  *    the route matches.
+  * @param {function|module:workbox-runtime-caching.Handler} handler The
+  * handler to use to provide a response if the route matches. The handler
+  * argument is ignored if you pass in a Route object, otherwise it's required.
+  * @return {module:workbox-routing.Route} The Route object that was
+  * registered.
+  */
+  post(capture, handler) {
+    return this.registerRoute(capture, handler, 'POST');
+  }
+
+  /**
    * A shortcut used to register a
    * [NavigationRoute]{@link module:workbox-routing.NavigationRoute} instance
    * that will respond to navigation requests using a cache entry for `url`.
