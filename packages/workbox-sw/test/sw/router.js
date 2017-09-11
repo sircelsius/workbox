@@ -157,4 +157,19 @@ describe(`Test workboxSW.router`, function() {
     const route = workboxSW.router.registerRoute(() => {}, () => {});
     expect(route).to.exist;
   });
+
+  it(`should support calling get()`, function() {
+    const workboxSW = new WorkboxSW();
+    return new Promise((resolve) => {
+      const route = workboxSW.get('/', (args) => resolve());
+      expect(route).to.exist;
+      expect(route.method).to.eql('get');
+
+      const fetchEvent = new FetchEvent('fetch', {
+        request: new Request(self.location.origin),
+      });
+
+      self.dispatchEvent(fetchEvent);
+    });
+  });
 });
